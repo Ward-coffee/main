@@ -15,7 +15,6 @@
   <!-- دعم Android أيضًا -->
   <meta name="mobile-web-app-capable" content="yes">
 
-
   <!-- دعم التثبيت على iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -140,7 +139,7 @@
     }
 
     // ----------------------
-    // 2. إعداد مربع التثبيت للمستخدم (beforeinstallprompt)
+    // 2. إعداد مربع التثبيت للمستخدم (beforeinstallprompt) مع تأخير 5 ثوانٍ
     // ----------------------
     let deferredPrompt;
     const installPromptContainer = document.getElementById('installPromptContainer');
@@ -149,27 +148,27 @@
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredPrompt = e;
-      // نظهر صندوق الطلب للمستخدم
-      installPromptContainer.style.display = 'block';
-    });
 
-    // إذا مرّت 5 ثواني ولم تنطلق قبلها أحداث التثبيت، نظهر رسالة التثبيت يدويًا
-    setTimeout(() => {
-      if (!deferredPrompt) {
+      // نظهر صندوق الطلب بعد 5 ثوانٍ فقط إذا حدث beforeinstallprompt
+      setTimeout(() => {
         installPromptContainer.style.display = 'block';
-      }
-    }, 5000);
+      }, 5000);
+    });
 
     installLink.addEventListener('click', async (event) => {
       event.preventDefault();
-      installPromptContainer.style.display = 'none';
 
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`🧾 نتيجة التثبيت: ${outcome}`);
-        deferredPrompt = null;
+      if (!deferredPrompt) {
+        alert("لا يمكن تثبيت التطبيق الآن. حاول لاحقًا.");
+        return;
       }
+
+      installPromptContainer.style.display = 'none';
+      deferredPrompt.prompt();
+
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`🧾 نتيجة التثبيت: ${outcome}`);
+      deferredPrompt = null;
     });
 
     window.addEventListener('appinstalled', () => {
@@ -269,8 +268,8 @@
         { name: "ساندويتش فاهيتا بخبز البان", price: "1500", image: "photos/Sandwiches/7.jpg" },
         { name: "ساندويتش استربس دجاج بخبز التورتيلا", price: "2500", image: "photos/Sandwiches/9.jpg" },
         { name: "ساندويتش تونه بخبز البان", price: "1500", image: "" },
-        { name: "سانдويتش تونه بخبز التوست", price: "1000", image: "" },
-        { name: "سانдويتش ميني برجر لحم", price: "1300", image: "photos/Sandwiches/.jpeg" }
+        { name: "ساندويتش تونه بخبز التوست", price: "1000", image: "" },
+        { name: "ساندويتش ميني برجر لحم", price: "1300", image: "photos/Sandwiches/.jpeg" }
       ],
 
       "البيتزا": [
