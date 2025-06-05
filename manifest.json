@@ -1,19 +1,19 @@
 {
   "name": "منيو ورد",
   "short_name": "منيو ورد",
-  "start_url": "/menu/",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#551665",
   "theme_color": "#551665",
   "orientation": "portrait",
   "icons": [
     {
-      "src": "photos/logo.png",
+      "src": "photos/logo-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "photos/logo.png",
+      "src": "photos/logo-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
