@@ -1,23 +1,27 @@
-const cacheName = "ورد كافي";
-const assets = [
-  "/",
-  "/index.html",
-  "/style.css",
-  "/photos/logo.png"
-  //👍👍 يمكنكم إضافة صور أخرى في هذا المكان لاحقًا إذا ارتم دعم التصفح بدون إنترنت بشكل أوسع
+const CACHE_NAME = 'my-app-cache-v1';
+const urlsToCache = [
+  '/', 
+  '/index.html',
+  '/style.css',
+  '/photos/logo.png',
 ];
 
-self.addEventListener("install", (event) => {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(cacheName).then((cache) => {
-      return cache.addAll(assets);
-    })
+    caches.open(CACHE_NAME)
+      .then(cache => {
+        // نجرب إضافة جميع الملفات، ولو فشل أحدها نستمر مع الباقي
+        return cache.addAll(urlsToCache).catch(err => {
+          console.warn('بعض الملفات لم تُحمّل أثناء التثبيت:', err);
+          return Promise.resolve(); // نتجاهل الخطأ ونبقى نثبت السرفس ووركر
+        });
+      })
   );
 });
 
-self.addEventListener("fetch", (event) => {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
+    caches.match(event.request).then(response => {
       return response || fetch(event.request);
     })
   );
