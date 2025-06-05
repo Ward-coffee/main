@@ -1,4 +1,4 @@
-const cacheName = "menu-cache-v1";
+const cacheName = "ورد كافي";
 const assets = [
   "/",
   "/index.html",
