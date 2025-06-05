@@ -6,42 +6,31 @@ body {
   color: #333;
 }
 
-/* الحاوية الأساسية */
-.container {
-  max-width: 100%;
-  margin: auto;
+/* إطار الصفحة */
+.page-frame {
+  border: 5px solid #551665;
+  border-radius: 20px;
+  margin: 10px;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: calc(100vh - 20px);
   background: #fff;
-  border-radius: 0px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #551665;
-  padding: 80%;
   position: relative;
-}
-
-.inner-border {
-  border: 3px solid #551665;
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: 0 0 10px #551665;
-  overflow: hidden;
 }
 
 /* الشريط العلوي */
 .header {
   background: #551665;
   color: white;
-  padding: 1%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  padding: 20px 10px;
+  text-align: center;
   position: relative;
-  height: 0px; /* لتحديد مساحة التأثير */
   overflow: hidden;
+  /* نرفع الـ z-index حتى يبقى فوق المحتوى */
+  z-index: 100;
 }
 
-/* أنيميشن الشعار والنص */
+/* أنيميشن الشعار والنص داخل الهيدر */
 .logo-img,
 .logo-text {
   position: absolute;
@@ -69,10 +58,12 @@ body {
   direction: rtl;
   font-size: 12px;
   line-height: 1.5;
-  padding:-20px;
-  z-index: 0;
+  padding: 0 10px;
+  z-index: 1;
   color: white;
 }
+
+/* حركة ظهور الشعار */
 @keyframes show-logo {
   0%, 40% {
     opacity: 1;
@@ -82,6 +73,7 @@ body {
   }
 }
 
+/* حركة ظهور النص */
 @keyframes show-text {
   0%, 40% {
     opacity: 0;
@@ -91,21 +83,10 @@ body {
   }
 }
 
-
-/* الشعار المصغر في مكان آخر إن وُجد */
+/* صورة الموقع المصغرة (إذا وُجدت في الهيدر أو في النافبار) */
 .location-img {
-  height: 40px; /* تصحيح */
+  height: 40px;
   width: auto;
-}
-
-.header .location {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.header .icons {
-  display: flex;
-  gap: 10px;
 }
 
 /* شريط البحث */
@@ -125,6 +106,8 @@ body {
   background: transparent;
   outline: none;
   font-size: 14px;
+  direction: rtl;
+  text-align: right;
 }
 
 .search-bar button {
@@ -136,7 +119,7 @@ body {
   cursor: pointer;
 }
 
-/* القائمة الأفقية */
+/* القائمة الأفقية للتصنيفات */
 .category-scroll {
   overflow-x: auto;
   white-space: nowrap;
@@ -162,6 +145,8 @@ body {
   width: 88px;
   transition: all 0.3s ease;
   cursor: pointer;
+  line-height: 1.2;
+  direction: rtl;
 }
 
 .category.selected {
@@ -170,56 +155,83 @@ body {
   font-weight: bold;
 }
 
+/* حاوية قائمة الطعام: نجبر الاتجاه ltr حتى نتمكن من عكس العناصر باستخدام flex-direction */
+#food-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 12px;
+  direction: ltr;
+  flex-direction: row-reverse;
+}
+
 /* بطاقات الطعام */
 .food-card {
   margin: 15px;
   background: white;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: calc(50% - 40px);
+  box-sizing: border-box;
+  direction: rtl;
 }
 
 .food-card img {
   width: 100%;
   height: auto;
   display: block;
+  object-fit: cover;
 }
 
 .food-info {
-  padding: 25px;
+  padding: 15px;
 }
 
+/* اسم الطبق والسعر */
 .food-info h4 {
   margin: 0;
   font-size: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  direction: rtl; /* ضروري لأن الصفحة بالعربية */
-  flex-direction: row-reverse; /* هذه السطر يضع الاسم يمين والسعر يسار */
+  direction: rtl; /* لأن الصفحة بالعربية */
+  flex-direction: row-reverse; /* يضع الاسم يمين والسعر يسار */
 }
 
-
+/* وصف إضافي أو ملاحظة داخل البطاقة (إن وُجد) */
 .food-info p {
   font-size: 12px;
   color: #777;
   margin-top: 5px;
+  direction: rtl;
 }
 
-/* أزرار أسفل الشاشة */
+/* الرسالة عند عدم وجود نتائج بحث */
+#food-list p {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  font-size: 14px;
+  color: #555;
+  direction: rtl;
+}
+
+/* أزرار التنقل السفلية */
 .bottom-nav {
   display: flex;
   justify-content: space-around;
   background: #551665;
-  padding: 0px 1px;
+  padding: 10px 0;
   border-radius: 10px;
   position: fixed;
-  bottom: -7px;
-  width: 99%;
+  bottom: 0;
+  width: 100%;
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
 }
 
 .bottom-nav button {
@@ -227,29 +239,30 @@ body {
   border: none;
   color: white;
   font-size: 20px;
+  cursor: pointer;
 }
 
-/* إطار الصفحة */
-.page-frame {
-  border: 5px solid #551665;
-  border-radius: 20px;
-  margin: 10px;
-  padding: 0;
-  box-sizing: border-box;
-  min-height: calc(100vh - 20px);
-}
-
-.location {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-/* أيقونات التواصل */
+/* أيقونات التواصل (إن وجدت) */
 .social-icons {
   display: flex;
   justify-content: center;
   gap: 15px;
   align-items: center;
 }
+
+/* إصلاح المسافات في الروابط السفلية */
+.bottom-nav a {
+  text-decoration: none;
+  color: white;
+}
+
+/* تأكد من أن عناصر الصفحة لا تتداخل مع الهيدر ونافيجيت */
+.page-frame,
+.search-bar,
+.category-scroll,
+#food-list,
+.bottom-nav {
+  /* ضمّن هذه القواعد كي يتناسق المحتوى ضمن الهيدر والإطار */
+}
+
+/* تذكير: استبدل أي خواص غير مستخدمة أو قم بإضافة أخرى كما تحتاج */
