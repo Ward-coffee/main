@@ -1,11 +1,10 @@
 {
-  "name": "منيو ورد",
-  "short_name": "منيو ورد",
+  "name": "منيو مطعم ورد",
+  "short_name": "ورد",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#551665",
+  "background_color": "#ffffff",
   "theme_color": "#551665",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "photos/logo.png",
