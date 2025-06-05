@@ -76,6 +76,7 @@
       margin: 12px;
       width: calc(50% - 32px);
       box-sizing: border-box;
+      direction: rtl; /* محتوى البطاقة يبقى RTL */
     }
     .food-card img {
       width: 100%;
@@ -104,6 +105,8 @@
       flex-wrap: wrap;
       justify-content: space-between;
       padding: 12px;
+      direction: ltr;            /* نجبر اتجاه الملء لتسلسل العناصر */
+      flex-direction: row-reverse;/* نعاكس الإتجاه المرئي كي يتطابق مع مصفوفة الـ JS */
     }
 
     /* شريط البحث */
@@ -347,8 +350,8 @@
         { name: "بان كيك مع شاي", price: "1000", image: "photos/breakfast/10_breakfast.jpeg" },
         { name: "بان كيك مع عصير فراوله", price: "1500", image: "photos/breakfast/11_breakfast.jpeg" },
         { name: "باخمري", price: "600", image: "photos/breakfast/16_1breakfast.jpg" },
-        { name: "مناقيش بالجبنه", price: "1000", image: "photos/breakfast/17.jpg" },
-        { name: "مناقيش بالزعتر", price: "1200", image: "photos/breakfast/18.jpg" },
+        { name: "مناقيش بالجبنه", price: "1200", image: "photos/breakfast/17.jpg" },
+        { name: "مناقيش بالزعتر", price: "1000", image: "photos/breakfast/18.jpg" },
         { name: "طبق كربوز", price: "5000", image: "photos/breakfast/2_breakfast.jpg" },
         { name: "طبق بهجه", price: "5000", image: "photos/breakfast/5_breakfast.jpg" },
         { name: "فطرو شامي 4 اشخاص - الطلب بالحجز", price: "7000", image: "photos/breakfast/9_breakfast.jpg" },
@@ -587,3 +590,4 @@
   </script>
 </body>
 </html>
+```
