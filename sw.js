@@ -1,46 +1,27 @@
-const CACHE_NAME = 'my-app-cache-v1';
+// sw.js
+const CACHE_NAME = 'ward-menu-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
   '/style.css',
+  '/manifest.json',
   '/photos/logo.png',
-  // أضف هنا أي أصول أخرى تريد التخزين المؤقت لها
+  // أضف هنا أي ملفات أخرى تريد تخزينها مؤقتًا (مثل الصور أو ملفات JS)
 ];
 
-// حدث التثبيت: نخزن الأصناف في الكاش
-self.addEventListener('install', event => {
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache).catch(err => {
-          console.warn('بعض الملفات لم تُحمّل أثناء التثبيت:', err);
-          return Promise.resolve();
-        });
-      })
-  );
-  self.skipWaiting();
-});
-
-// حدث التفعيل: ننظف الكاش القديم إذا تغير اسمه
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
-      );
+    caches.open(CACHE_NAME).then(function(cache) {
+      return cache.addAll(urlsToCache);
     })
   );
 });
 
-// حدث الجلب: إذا وجدنا المورد في الكاش نعيده، وإلا نذهب للشبكة
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request)
+      .then(function(response) {
+        return response || fetch(event.request);
+      })
   );
 });
