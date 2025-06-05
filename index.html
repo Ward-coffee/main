@@ -44,6 +44,12 @@
       background: #3f104c;
     }
 
+    /* تمييز الزر المختار */
+    .category.selected {
+      background: #551665;
+      color: white;
+    }
+
     /* ملاحظة تثبيت خاصة بـ iOS (ستظهر فقط على Safari في iOS) */
     #iosInstallHint {
       display: none;
@@ -197,50 +203,7 @@
     });
 
     // ----------------------
-    // 4. دالة البحث في قائمة الطعام
-    // ----------------------
-    function search() {
-      const query = document.getElementById('searchInput').value.trim();
-      const container = document.getElementById('food-list');
-      container.innerHTML = '';
-      if (!query) {
-        alert("الرجاء إدخال كلمة للبحث");
-        return;
-      }
-
-      let resultsFound = false;
-      const maxPrice = !isNaN(query) ? parseFloat(query) : null;
-
-      for (const category in foodData) {
-        foodData[category].forEach(item => {
-          const itemName = item.name || "";
-          const itemPrice = parseFloat(item.price) || 0;
-          const matchesName = itemName.includes(query);
-          const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
-
-          if (matchesName || matchesPrice) {
-            resultsFound = true;
-            const card = document.createElement('div');
-            card.className = 'food-card';
-            card.innerHTML = `
-              ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
-              <div class="food-info">
-                <h4>${item.price} <span>${item.name}</span></h4>
-                ${item.description ? `<p>${item.description}</p>` : ""}
-              </div>
-            `;
-            container.appendChild(card);
-          }
-        });
-      }
-
-      if (!resultsFound) {
-        container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
-      }
-    }
-
-    // ----------------------
-    // 5. بيانات الطعام (foodData) وترتيب العرض حسب التصنيف
+    // 4. بيانات الطعام (foodData)
     // ----------------------
     const foodData = {
       "الافطار": [
@@ -396,31 +359,9 @@
       ]
     };
 
-    // تشغيل عرض قسم "الافطار" افتراضيًا عند التحميل
-    window.onload = () => {
-      renderFoodItems("الافطار");
-      console.log('🛠️ الصفحة حملت وعرضت قسم الافطار.');
-    };
-
-    // دالة عرض المنتجات بناءً على التصنيف
-    function renderFoodItems(category) {
-      const container = document.getElementById('food-list');
-      container.innerHTML = '';
-      (foodData[category] || []).forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'food-card';
-        card.innerHTML = `
-          ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
-          <div class="food-info">
-            <h4>${item.price} <span>${item.name}</span></h4>
-            ${item.description ? `<p>${item.description}</p>` : ""}
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    // دالة البحث
+    // ----------------------
+    // 5. دالة البحث في قائمة الطعام
+    // ----------------------
     function search() {
       const query = document.getElementById('searchInput').value.trim();
       const container = document.getElementById('food-list');
@@ -432,12 +373,14 @@
 
       let resultsFound = false;
       const maxPrice = !isNaN(query) ? parseFloat(query) : null;
+
       for (const category in foodData) {
         foodData[category].forEach(item => {
           const itemName = item.name || "";
           const itemPrice = parseFloat(item.price) || 0;
           const matchesName = itemName.includes(query);
           const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
+
           if (matchesName || matchesPrice) {
             resultsFound = true;
             const card = document.createElement('div');
@@ -458,6 +401,57 @@
         container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
       }
     }
+
+    // ----------------------
+    // 6. دوال عرض المنتجات حسب التصنيف وتنقل الأقسام
+    // ----------------------
+    // الاستماع للنقر على أزرار التصنيفات
+    const categoryButtons = document.querySelectorAll(".category");
+
+    categoryButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        // إزالة التحديد من الكل
+        categoryButtons.forEach(btn => btn.classList.remove("selected"));
+        // تحديد الزر الحالي
+        button.classList.add("selected");
+
+        // الحصول على اسم التصنيف (النص بعد السطر)
+        const categoryText = button.innerText.split("\n")[1].trim();
+
+        // عرض بيانات الطعام للتصنيف المحدد
+        renderCategory(categoryText);
+      });
+    });
+
+    // دالة عرض العناصر حسب التصنيف
+    function renderCategory(categoryName) {
+      const container = document.getElementById("food-list");
+      container.innerHTML = "";
+
+      if (!foodData[categoryName]) {
+        container.innerHTML = "<p style='text-align:center;'>لا توجد عناصر في هذا القسم.</p>";
+        return;
+      }
+
+      foodData[categoryName].forEach(item => {
+        const card = document.createElement("div");
+        card.className = "food-card";
+        card.innerHTML = `
+          ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
+          <div class="food-info">
+            <h4>${item.price} <span>${item.name}</span></h4>
+            ${item.description ? `<p>${item.description}</p>` : ""}
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // عرض قسم الإفطار افتراضيًا عند تحميل الصفحة
+    window.onload = () => {
+      renderCategory("الافطار");
+      console.log('🛠️ الصفحة حملت وعرضت قسم الافطار.');
+    };
   </script>
 </body>
 </html>
