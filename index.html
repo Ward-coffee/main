@@ -20,7 +20,7 @@
 </head>
 
 <body>
-  <!-- رسالة/رابط طلب الإذن لتثبيت التطبيق -->
+  <!-- صندوق طلب التثبيت (سيظهر تلقائيًا عند إمكانية التثبيت) -->
   <div id="installPromptContainer" style="
       position: fixed;
       bottom: 20px;
@@ -59,57 +59,6 @@
     لتثبيت التطبيق: اضغط على زر <b>المشاركة</b> ثم اختر <b>"إضافة إلى الشاشة الرئيسية"</b>.
   </div>
 
-  <script>
-    let deferredPrompt;
-    const installPromptContainer = document.getElementById('installPromptContainer');
-    const installLink = document.getElementById('installLink');
-
-    // التقاط حدث beforeinstallprompt عندما تكون شروط PWA مستوفاة
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      // نظهر صندوق الطلب للمستخدم
-      installPromptContainer.style.display = 'block';
-    });
-
-    // إجبار المستخدم على رؤية زر التثبيت بعد 5 ثوانٍ
-    setTimeout(() => {
-      if (!deferredPrompt) {
-        installPromptContainer.style.display = 'block';
-      }
-    }, 5000);
-
-    // عند نقر المستخدم على الرابط داخل الصندوق
-    installLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      // نخفي صندوق الطلب فوراً
-      installPromptContainer.style.display = 'none';
-
-      if (deferredPrompt) {
-        // نستدعي نافذة تثبيت التطبيق
-        deferredPrompt.prompt();
-        // نتتبع اختيار المستخدم (تثبيت أم إلغاء)
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            console.log('✅ المستخدم وافق على التثبيت');
-          } else {
-            console.log('❌ المستخدم رفض التثبيت');
-          }
-          // بعد التثبيت أو الرفض، نُعيد المتغير إلى null
-          deferredPrompt = null;
-        });
-      }
-    });
-
-    // دعم iOS: إظهار التنبيه اليدوي لتثبيت التطبيق
-    const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-
-    if (isIOS && !isInStandaloneMode) {
-      document.getElementById('iosInstallHint').style.display = 'block';
-    }
-  </script>
-
   <!-- بداية محتوى الصفحة -->
   <div class="page-frame">
     <!-- الشريط العلوي -->
@@ -130,50 +79,6 @@
       <button onclick="search()">🔍</button>
     </div>
 
-    <script>
-      function search() {
-        const query = document.getElementById('searchInput').value.trim();
-        const container = document.getElementById('food-list');
-        container.innerHTML = '';
-
-        if (!query) {
-          alert("الرجاء إدخال كلمة للبحث");
-          return;
-        }
-
-        let resultsFound = false;
-        const maxPrice = !isNaN(query) ? parseFloat(query) : null;
-
-        for (const category in foodData) {
-          foodData[category].forEach(item => {
-            const itemName = item.name || "";
-            const itemPrice = parseFloat(item.price) || 0;
-
-            const matchesName = itemName.includes(query);
-            const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
-
-            if (matchesName || matchesPrice) {
-              resultsFound = true;
-              const card = document.createElement('div');
-              card.className = 'food-card';
-              card.innerHTML = `
-                ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
-                <div class="food-info">
-                  <h4>${item.price} <span>${item.name}</span></h4>
-                  ${item.description ? `<p>${item.description}</p>` : ""}
-                </div>
-              `;
-              container.appendChild(card);
-            }
-          });
-        }
-
-        if (!resultsFound) {
-          container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
-        }
-      }
-    </script>
-
     <!-- القائمة الأفقية -->
     <div class="category-scroll">
       <div class="categories">
@@ -193,29 +98,139 @@
 
     <!-- قسم الطعام (يتم ملؤه ديناميكيًا) -->
     <div id="food-list"></div>
+
+    <!-- أزرار التنقل السفلية -->
+    <nav class="bottom-nav">
+      <a href="fedback.html" aria-label="صفحة الفيدباك">
+        <button type="button">
+          <div class="location">
+            <img src="photos/qusition.png" alt="feedback" class="location-img" width="20" height="20">
+          </div>
+        </button>
+      </a>
+
+      <a href="map.html" aria-label="صفحة الموقع">
+        <button type="button">
+          <div class="location">
+            <img src="photos/location.png" alt="location" class="location-img" width="20" height="20">
+          </div>
+        </button>
+      </a>
+    </nav>
   </div>
 
-  <!-- أزرار التنقل السفلية -->
-  <nav class="bottom-nav">
-    <a href="fedback.html" aria-label="صفحة الفيدباك">
-      <button type="button">
-        <div class="location">
-          <img src="photos/qusition.png" alt="feedback" class="location-img" width="20" height="20">
-        </div>
-      </button>
-    </a>
-
-    <a href="map.html" aria-label="صفحة الموقع">
-      <button type="button">
-        <div class="location">
-          <img src="photos/location.png" alt="location" class="location-img" width="20" height="20">
-        </div>
-      </button>
-    </a>
-  </nav>
-
-  <!-- سكربت عرض البيانات -->
+  <!-- سكربت عرض البيانات وتعامل الـ PWA -->
   <script>
+    // ----------------------
+    // 1. تسجيل Service Worker
+    // ----------------------
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => {
+            console.log('✅ تم تسجيل Service Worker:', reg);
+          })
+          .catch(err => {
+            console.error('❌ فشل تسجيل Service Worker:', err);
+          });
+      });
+    }
+
+    // ----------------------
+    // 2. إعداد مربع التثبيت للمستخدم (beforeinstallprompt)
+    // ----------------------
+    let deferredPrompt;
+    const installPromptContainer = document.getElementById('installPromptContainer');
+    const installLink = document.getElementById('installLink');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // نظهر صندوق الطلب للمستخدم
+      installPromptContainer.style.display = 'block';
+    });
+
+    // إذا مرّت 5 ثواني ولم تنطلق قبلها أحداث التثبيت، نظهر رسالة التثبيت يدويًا
+    setTimeout(() => {
+      if (!deferredPrompt) {
+        installPromptContainer.style.display = 'block';
+      }
+    }, 5000);
+
+    installLink.addEventListener('click', async (event) => {
+      event.preventDefault();
+      installPromptContainer.style.display = 'none';
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`🧾 نتيجة التثبيت: ${outcome}`);
+        deferredPrompt = null;
+      }
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('✅ تم تثبيت التطبيق بنجاح!');
+    });
+
+    // ----------------------
+    // 3. دعم iOS: إظهار تلميح التثبيت اليدوي
+    // ----------------------
+    const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+
+    if (isIOS && !isInStandaloneMode) {
+      document.getElementById('iosInstallHint').style.display = 'block';
+    }
+
+    // ----------------------
+    // 4. دالة البحث في قائمة الطعام
+    // ----------------------
+    function search() {
+      const query = document.getElementById('searchInput').value.trim();
+      const container = document.getElementById('food-list');
+      container.innerHTML = '';
+
+      if (!query) {
+        alert("الرجاء إدخال كلمة للبحث");
+        return;
+      }
+
+      let resultsFound = false;
+      const maxPrice = !isNaN(query) ? parseFloat(query) : null;
+
+      for (const category in foodData) {
+        foodData[category].forEach(item => {
+          const itemName = item.name || "";
+          const itemPrice = parseFloat(item.price) || 0;
+
+          const matchesName = itemName.includes(query);
+          const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
+
+          if (matchesName || matchesPrice) {
+            resultsFound = true;
+            const card = document.createElement('div');
+            card.className = 'food-card';
+            card.innerHTML = `
+              ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
+              <div class="food-info">
+                <h4>${item.price} <span>${item.name}</span></h4>
+                ${item.description ? `<p>${item.description}</p>` : ""}
+              </div>
+            `;
+            container.appendChild(card);
+          }
+        });
+      }
+
+      if (!resultsFound) {
+        container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
+      }
+    }
+
+    // ----------------------
+    // 5. بيانات الطعام (foodData) وترتيب العرض حسب التصنيف
+    // ----------------------
     const foodData = {
       "الافطار": [
         { name: "فطور مصري 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/1_breakfast.jpg" },
@@ -251,8 +266,8 @@
         { name: "ساندويتش فاهيتا بخبز البان", price: "1500", image: "photos/Sandwiches/7.jpg" },
         { name: "ساندويتش استربس دجاج بخبز التورتيلا", price: "2500", image: "photos/Sandwiches/9.jpg" },
         { name: "ساندويتش تونه بخبز البان", price: "1500", image: "" },
-        { name: "ساندويتش تونه بخبز التوست", price: "1000", image: "" },
-        { name: "ساندويتش ميني برجر لحم", price: "1300", image: "photos/Sandwiches/.jpeg" }
+        { name: "سانдويتش تونه بخبز التوست", price: "1000", image: "" },
+        { name: "سانдويتش ميني برجر لحم", price: "1300", image: "photos/Sandwiches/.jpeg" }
       ],
 
       "البيتزا": [
@@ -314,7 +329,7 @@
 
       "المشروبات_البارده": [
         { name: "سان شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1000", image: "photos/colddrinks/1.jpg" },
-        { name: "سان باور شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1400", image: "" },
+        { name: "سان باور شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1400", image: "photos/colddrinks/2.jpg" },
         { name: "عصير سان توب", price: "300", image: "" },
         { name: "عصير سن كويك", price: "500", image: "" },
         { name: "مشروب غازي", price: "400", image: "" },
@@ -369,13 +384,6 @@
         { name: "شيشة شموخ", price: "4000", image: "" }
       ]
     };
-
-    // تسجيل Service Worker (PWA)
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js')
-        .then(() => console.log("✅ تم تسجيل Service Worker"))
-        .catch(err => console.error("❌ فشل التسجيل:", err));
-    }
 
     // دالة عرض المنتجات بناءً على التصنيف
     function renderFoodItems(category) {
