@@ -7,7 +7,7 @@
 
   <!-- أيقونة الموقع -->
   <link rel="icon" href="photos/logo.png" type="image/x-icon">
-  <!-- ملف التصميم الخارجى -->
+  <!-- ملف التصميم الخارجي -->
   <link rel="stylesheet" href="style.css">
   <!-- ملف المانيفست الخاص بالتطبيق -->
   <link rel="manifest" href="manifest.json">
@@ -197,7 +197,7 @@
 
   <!-- أزرار التنقل السفلية -->
   <nav class="bottom-nav">
-    <a href="fedback.html" aria-label="صفحة الموقع">
+    <a href="fedback.html" aria-label="صفحة الفيدباك">
       <button type="button">
         <div class="location">
           <img src="photos/qusition.png" alt="feedback" class="location-img" width="20" height="20">
@@ -217,44 +217,66 @@
   <!-- سكربت عرض البيانات -->
   <script>
     const foodData = {
-      الافطار: [
+      "الافطار": [
         { name: "فطور مصري 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/1_breakfast.jpg" },
         { name: "طبق كربوز", price: "5000", image: "photos/breakfast/2_breakfast.jpg" },
+        { name: "اضافه خبز", price: "500", image: "photos/breakfast/3_breakfast.jpeg" },
         { name: "فاصوليا مع المقبلات", price: "1500", image: "photos/breakfast/4_breakfast.jpg" },
         { name: "طبق بهجه", price: "5000", image: "photos/breakfast/5_breakfast.jpg" },
         { name: "فرنش توست مع عصير فراوله", price: "1500", image: "photos/breakfast/6_breakfast.jpeg" },
         { name: "فرنش توست مع شاي", price: "1000", image: "photos/breakfast/7_breakfast.jpeg" },
         { name: "فطور تركي 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/8_breakfast.jpg" },
         { name: "فطرو شامي 4 اشخاص - الطلب بالحجز", price: "7000", image: "photos/breakfast/9_breakfast.jpg" },
-        { name: "بان كيك مع شاي", price: "1000", image: "photos/breakfast/10_breakfast.jpeg" },
         { name: "بان كيك مع عصير فراوله", price: "1500", image: "photos/breakfast/11_breakfast.jpeg" },
+        { name: "بان كيك مع شاي", price: "1000", image: "photos/breakfast/10_breakfast.jpeg" },
         { name: "بيض مع المقبلات", price: "1500", image: "photos/breakfast/12_breakfast.jpg" },
         { name: "خبز طاوه مع المقبلات و شاي", price: "1500", image: "photos/breakfast/13_breakfast.jpeg" },
         { name: "خبز طاوه مع المقبلات و شاي حليب", price: "1800", image: "photos/breakfast/14_breakfast.jpg" },
-        { name: "اضافه خبز", price: "500", image: "photos/breakfast/3_breakfast.jpeg" },
         { name: "مطيط", price: "1200", image: "photos/breakfast/15_breakfast.jpeg" },
-        { name: "مناقيش بالجبنه", price: "1000", image: "photos/breakfast/17.jpg" },
-        { name: "مناقيش بالزعتر", price: "1200", image: "photos/breakfast/18.jpg" },
         { name: "باخمري", price: "600", image: "photos/breakfast/16_1breakfast.jpg" },
-        { name: "فطور 8 اشخاص-الطلب بالحجز", price: "15000", image: "photos/breakfast/16_breakfast.jpg" }
+        { name: "فطور 8 اشخاص-الطلب بالحجز", price: "15000", image: "photos/breakfast/16_breakfast.jpg" },
+        { name: "مناقيش بالجبنه", price: "1000", image: "photos/breakfast/17.jpg" },
+        { name: "مناقيش بالزعتر", price: "1200", image: "photos/breakfast/18.jpg" }
       ],
-      const الساندويتشات = [
+
+      "الساندويتشات": [
         { name: "ساندويتش زنجر", price: "2500", image: "photos/sandwiches/1.jpg" },
         { name: "برجر دجاج", price: "1900", image: "photos/sandwiches/2.png" },
-        { name: "برجر دجاج وجبه", price: "2600" }, 
+        { name: "برجر دجاج وجبه", price: "2600", image: "" },
         { name: "بجرجر لحم", price: "2500", image: "photos/sandwiches/3.png" },
-        { name: "بجرجر لحم وجبه", price: "3200" },
+        { name: "بجرجر لحم وجبه", price: "3200", image: "" },
         { name: "اضافه شبس", price: "600", image: "photos/sandwiches/4.jpeg" },
         { name: "ساندويتش فاهيتا بخبز التوست", price: "1500", image: "photos/sandwiches/5.jpg" },
         { name: "ساندويتش فاهيتا بخبز التورتيلا", price: "2000", image: "photos/sandwiches/6.jpg" },
         { name: "ساندويتش فاهيتا بخبز البان", price: "1500", image: "photos/sandwiches/7.jpg" },
         { name: "ساندويتش استربس دجاج بخبز التورتيلا", price: "2500", image: "photos/sandwiches/9.jpg" },
-        { name: "ساندويتش تونه بخبز البان", price: "1500" }, 
-        { name: "ساندويتش تونه بخبز التوست", price: "1000" }, 
+        { name: "ساندويتش تونه بخبز البان", price: "1500", image: "" },
+        { name: "ساندويتش تونه بخبز التوست", price: "1000", image: "" },
         { name: "ساندويتش ميني برجر لحم", price: "1300", image: "photos/sandwiches/10.jpeg" }
-      ];
+      ],
 
-      الاطباق: [
+      "البيتزا": [
+        { name: "بيتزا دجاج", price: "4000", image: "photos/pizza/1_pizza.jpeg" },
+        { name: "بيتزا خضار", price: "3500", image: "photos/pizza/7.jpeg" },
+        { name: "بيزا مرجريتا", price: "3000", image: "photos/pizza/3_pizza.jpeg" },
+        { name: "بيزا نحيفة بصوص البيستو", price: "3500", image: "photos/pizza/4_pizza.jpg" },
+        { name: "بان بيتزا", price: "3500", image: "photos/pizza/5_pizza.jpeg" },
+        { name: "بيتزا محبي الجبنة", price: "3500", image: "photos/pizza/6.jpg" }
+      ],
+
+      "السلطات": [
+        { name: "سلطه يونانيه", price: "700", image: "photos/Salads&Appetizers/1.jpg" },
+        { name: "سلطه فتوش", price: "1000", image: "photos/Salads&Appetizers/2.jpeg" },
+        { name: "سلطه جرجير", price: "1000", image: "photos/Salads&Appetizers/3.jpeg" }
+      ],
+
+      "الشوربات": [
+        { name: "شوربة عدس", price: "1000", image: "photos/soups/1.jpg" },
+        { name: "شوربة شوفان بالدجاج", price: "1100", image: "photos/soups/2.jpeg" },
+        { name: "شوربة كريمه بالدجاج", price: "1300", image: "photos/soups/3.jpeg" }
+      ],
+
+      "الاطباق": [
         { name: "دجاج تايلاندي", price: "1800", image: "photos/maindeshes/1.jpg" },
         { name: "وجبه دجاج تايلاندي مع الكاجو", price: "3000", image: "photos/maindeshes/2.jpg" },
         { name: "تشكن ونجز بصوص البافلو", price: "2000", image: "photos/maindeshes/3.jpeg" },
@@ -267,97 +289,84 @@
         { name: "وجبه بوب كورن دجاج (حار - عادي)", price: "2000", image: "photos/maindeshes/7.jpg" },
         { name: "بوب كورن دجاج (حار - عادي)", price: "1500", image: "photos/maindeshes/9.jpg" }
       ],
-      الشوربات: [
-        { name: "شوربة عدس", price: "1000", image: "photos/soups/1.jpg" },
-        { name: "شوربة شوفان بالدجاج", price: "1100", image: "photos/soups/2.jpeg" },
-        { name: "شوربة كريمه بالدجاج", price: "1300", image: "photos/soups/3.jpeg" }
-      ],
-      وجبات الاطفال: [
+
+      "وجبات الاطفال": [
         { name: "مكرونه بصوص الجبنه", price: "2000", image: "photos/kidsfood/1.jpg" },
         { name: "اصابع جبنة", price: "2000", image: "photos/kidsfood/2.jpg" },
         { name: "ناجتس وجبه", price: "2000", image: "photos/kidsfood/3.jpg" },
         { name: "6 حبات ناجتس", price: "1000", image: "photos/kidsfood/4.jpg" }
       ],
-      السلطات: [
-        { name: "سلطه يونانيه", price: "700", image: "photos/Salads&Appetizers/1.jpg" },
-        { name: "سلطه فتوش", price: "1000", image: "photos/Salads&Appetizers/2.jpeg" },
-        { name: "سلطه جرجير", price: "1000", image: "photos/Salads&Appetizers/3.jpeg" }
-      ],
-      الحلويات: [
+
+      "الحلويات": [
         { name: "سويس رول بالشوكولاتة", price: "700", image: "photos/dessert/1.jpg" },
         { name: "كوكيز", price: "600", image: "photos/dessert/2.jpg" },
         { name: "حلا الكريب بالشوكولاتة", price: "2000", image: "photos/dessert/4.jpg" },
         { name: "10 حبات مني بان كيك بالشوكولاتة العسل", price: "1000", image: "photos/dessert/5.jpg" },
-        { name: "5 حبات مني بان كيك بالشوكولاته والعسل", price: "500", image: "photos/dessert/.jpg" },
-        { name: "حلا الشعيرية", price: "500", image: "photos/dessert/.jpg" },
-        { name: "حلا الشعيرية", price: "600", image: "photos/dessert/.jpg" },
-        { name: "فشار", price: "600", image: "photos/dessert/.jpg" },
-        { name: "تشيزكيك لوتس (حسب الطلب)", price: "2000", image: "photos/dessert/.jpg" },
-        { name: "موس كيك (حسب الطلب)", price: "1600", image: "photos/dessert/.jpg" },
-        { name: "كيك غني بالشوكولاتة (حسب الطلب)", price: "800", image: "photos/dessert/.jpg" },
+        { name: "5 حبات مني بان كيك بالشوكولاته والعسل", price: "500", image: "" },
+        { name: "حلا الشعيرية", price: "500", image: "" },
+        { name: "حلا الشعيرية", price: "600", image: "" },
+        { name: "فشار", price: "600", image: "" },
+        { name: "تشيزكيك لوتس (حسب الطلب)", price: "2000", image: "" },
+        { name: "موس كيك (حسب الطلب)", price: "1600", image: "" },
+        { name: "كيك غني بالشوكولاتة (حسب الطلب)", price: "800", image: "" },
         { name: "ايسكريم", price: "800", image: "photos/dessert/1_ice.jpg" }
       ],
-      المشروبات_البارده: [
+
+      "المشروبات_البارده": [
         { name: "سان شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1000", image: "photos/colddrinks/1.jpg" },
-        { name: "سان باور شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1400" },
-        { name: "عصير سان توب", price: "300" },
-        { name: "عصير سن كويك", price: "500" },
-        { name: "مشروب غازي", price: "400" },
-        { name: "ماء", price: "300" },
-        { name: "ايس موكا", price: "1200" },
-        { name: "ايس تي خوخ", price: "1000" },
-        { name: "ورد لاتيه", price: "1700" },
-        { name: "ورد مكس", price: "1500" },
-        { name: "سبانش لاتيه", price: "1400" },
-        { name: "ايس لاتيه (قهوة باردة)", price: "1200" },
-        { name: "ايس فرباتشينو (كرامل - شوكولاتة)", price: "1400" },
-        { name: "كراميل لاتيه", price: "1200" },
+        { name: "سان باور شاين (توت ازرق, توت احمر, خوخ, فراوله, برتقال, عناب, ليمون مع نعناع)", price: "1400", image: "" },
+        { name: "عصير سان توب", price: "300", image: "" },
+        { name: "عصير سن كويك", price: "500", image: "" },
+        { name: "مشروب غازي", price: "400", image: "" },
+        { name: "ماء", price: "300", image: "" },
+        { name: "ايس موكا", price: "1200", image: "" },
+        { name: "ايس تي خوخ", price: "1000", image: "" },
+        { name: "ورد لاتيه", price: "1700", image: "" },
+        { name: "ورد مكس", price: "1500", image: "" },
+        { name: "سبانش لاتيه", price: "1400", image: "" },
+        { name: "ايس لاتيه (قهوة باردة)", price: "1200", image: "" },
+        { name: "ايس فرباتشينو (كرامل - شوكولاتة)", price: "1400", image: "" },
+        { name: "كراميل لاتيه", price: "1200", image: "" },
         { name: "عصير فراولة", price: "1000", image: "photos/colddrinks/2.jpg" },
-        { name: "عصير فراولة طازجة", price: "1300" },
-        { name: "عصير فراولة بالحليب", price: "1200" },
-        { name: "عصير زبيب أسود", price: "1500" },
-        { name: "عصير منجو", price: "1200" },
-        { name: "عصير منجو بالحليب", price: "1400" },
-        { name: "عصير موز", price: "600" },
-        { name: "عصير موز بالحليب", price: "600" },
-        { name: "عصير كركديه", price: "600" },
-        { name: "عصير مكس كركديه", price: "1000" },
-        { name: "عصير حبّيب", price: "1200" },
-        { name: "عصير برتقال", price: "1200" },
-        { name: "عصير ليمون", price: "1200" }
+        { name: "عصير فراولة طازجة", price: "1300", image: "" },
+        { name: "عصير فراولة بالحليب", price: "1200", image: "" },
+        { name: "عصير زبيب أسود", price: "1500", image: "" },
+        { name: "عصير منجو", price: "1200", image: "" },
+        { name: "عصير منجو بالحليب", price: "1400", image: "" },
+        { name: "عصير موز", price: "600", image: "" },
+        { name: "عصير موز بالحليب", price: "600", image: "" },
+        { name: "عصير كركديه", price: "600", image: "" },
+        { name: "عصير مكس كركديه", price: "1000", image: "" },
+        { name: "عصير حبّيب", price: "1200", image: "" },
+        { name: "عصير برتقال", price: "1200", image: "" },
+        { name: "عصير ليمون", price: "1200", image: "" }
       ],
-      المشروبات_الساخنة: [
+
+      "المشروبات_الساخنة": [
         { name: "كابتشينو", price: "1000", image: "photos/hotdrinks/1.jpg" },
-        { name: "كراميل لاتيه", price: "1200" },
-        { name: "شوكولاتة ساخنة", price: "1000" },
-        { name: "موكا ساخنة", price: "1200" },
-        { name: "لاتيه ساخنة", price: "1000" },
-        { name: "اسبريسو رومانيو", price: "1000" },
-        { name: "اسبريسو", price: "1000" },
-        { name: "امريكانو", price: "1000" },
-        { name: "نيسكافي بالحليب", price: "900" },
-        { name: "شاي حليب", price: "600" },
-        { name: "شاي أحمر", price: "400" },
-        { name: "شاي أخضر", price: "400" },
-        { name: "قهوة تركي", price: "700" },
-        { name: "بن ساده", price: "700" },
-        { name: "بن حليب", price: "600" }
+        { name: "كراميل لاتيه", price: "1200", image: "" },
+        { name: "شوكولاتة ساخنة", price: "1000", image: "" },
+        { name: "موكا ساخنة", price: "1200", image: "" },
+        { name: "لاتيه ساخنة", price: "1000", image: "" },
+        { name: "اسبريسو رومانيو", price: "1000", image: "" },
+        { name: "اسبريسو", price: "1000", image: "" },
+        { name: "امريكانو", price: "1000", image: "" },
+        { name: "نيسكافي بالحليب", price: "900", image: "" },
+        { name: "شاي حليب", price: "600", image: "" },
+        { name: "شاي أحمر", price: "400", image: "" },
+        { name: "شاي أخضر", price: "400", image: "" },
+        { name: "قهوة تركي", price: "700", image: "" },
+        { name: "بن ساده", price: "700", image: "" },
+        { name: "بن حليب", price: "600", image: "" }
       ],
-      البيتزا: [
-        { name: "بيتزا دجاج", price: "4000", image: "photos/pizza/1_pizza.jpeg" },
-        { name: "بيتزا خضار", price: "3500", image: "photos/pizza/7.jpeg" },
-        { name: "بيزا مرجريتا", price: "3000", image: "photos/pizza/3_pizza.jpeg" },
-        { name: "بيزا نحيفة بصوص البيستو", price: "3500", image: "photos/pizza/4_pizza.jpg" },
-        { name: "بان بيتزا", price: "3500", image: "photos/pizza/5_pizza.jpeg" },
-        { name: "بيتزا محبي الجبنة", price: "3500", image: "photos/pizza/6.jpg" }
-      ],
-      الشيش: [
+
+      "الشيش": [
         { name: "شيشة ورد", price: "4000", image: "photos/sheshah/1.jpg" },
-        { name: "شيشة الندى", price: "4000" },
-        { name: "شيشة مكس", price: "3500" },
-        { name: "شيشة مكس بنكهتين", price: "4000" },
-        { name: "شيشة نكهات", price: "3000" },
-        { name: "شيشة شموخ", price: "4000" }
+        { name: "شيشة الندى", price: "4000", image: "" },
+        { name: "شيشة مكس", price: "3500", image: "" },
+        { name: "شيشة مكس بنكهتين", price: "4000", image: "" },
+        { name: "شيشة نكهات", price: "3000", image: "" },
+        { name: "شيشة شموخ", price: "4000", image: "" }
       ]
     };
 
