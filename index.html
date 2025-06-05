@@ -24,7 +24,7 @@
   <link rel="apple-touch-icon" href="photos/logo.png">
 
   <style>
-    /* تنسيقات زر التثبيت */
+    /* --- تنسيقات زر التثبيت --- */
     #installBtn {
       background: #551665;
       color: white;
@@ -43,15 +43,9 @@
     #installBtn:hover {
       background: #3f104c;
     }
-  </style>
-</head>
 
-<body>
-  <!-- زر التثبيت اليدوي: يظهر فقط عند توفر نافذة beforeinstallprompt -->
-  <button id="installBtn">📲 تثبيت التطبيق</button>
-
-  <!-- ملاحظة تثبيت خاصة بـ iOS -->
-  <div id="iosInstallHint" style="
+    /* ملاحظة تثبيت خاصة بـ iOS (ستظهر فقط على Safari في iOS) */
+    #iosInstallHint {
       display: none;
       position: fixed;
       bottom: 80px;
@@ -62,7 +56,18 @@
       border-radius: 10px;
       color: white;
       font-size: 14px;
-    ">
+    }
+
+    /* (باقي تنسيقات الصفحة كما كانت لديك) */
+  </style>
+</head>
+
+<body>
+  <!-- زر التثبيت اليدوي: يظهر فقط عندما يُطلق beforeinstallprompt -->
+  <button id="installBtn">📲 تثبيت التطبيق</button>
+
+  <!-- ملاحظة تثبيت خاصة بـ iOS -->
+  <div id="iosInstallHint">
     لتثبيت التطبيق: اضغط على زر <b>المشاركة</b> ثم اختر <b>"إضافة إلى الشاشة الرئيسية"</b>.
   </div>
 
@@ -115,7 +120,6 @@
           </div>
         </button>
       </a>
-
       <a href="map.html" aria-label="صفحة الموقع">
         <button type="button">
           <div class="location">
@@ -141,6 +145,8 @@
             console.error('❌ فشل تسجيل Service Worker:', err);
           });
       });
+    } else {
+      console.warn('🤔 المتصفح لا يدعم Service Worker.');
     }
 
     // ----------------------
@@ -150,36 +156,44 @@
     const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
     if (isIOS && !isInStandaloneMode) {
       document.getElementById('iosInstallHint').style.display = 'block';
+      console.log('🛠️ يظهر تلميح تثبيت خاص بـ iOS.');
     }
 
     // ----------------------
     // 3. التعامل مع زر التثبيت اليدوي (beforeinstallprompt)
     // ----------------------
-    let deferredPrompt;
+    let deferredPrompt = null;
     const installBtn = document.getElementById('installBtn');
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault(); // منع ظهور النافذة التلقائي
-      deferredPrompt = e;
-      installBtn.style.display = 'inline-block'; // عرض الزر عندما يكون متاحًا
+    // أضف مستمع الحدث قبل أي محاولة للنقر على الزر
+    installBtn.addEventListener('click', async () => {
+      console.log('👉 تم الضغط على زر التثبيت.');
+      if (!deferredPrompt) {
+        console.log('🚫 deferredPrompt فارغ، لا يمكن فتح نافذة التثبيت.');
+        alert('التثبيت غير متوفر حالياً. جرّب لاحقاً من متصفح يدعم PWA.');
+        return;
+      }
+
+      // افتح نافذة التثبيت الرسمية
+      deferredPrompt.prompt();
+      console.log('📤 تم استدعاء deferredPrompt.prompt().');
+
+      const choice = await deferredPrompt.userChoice;
+      console.log(`🧾 نتيجة التثبيت: ${choice.outcome}`); // "accepted" أو "dismissed"
+      deferredPrompt = null;
+      installBtn.style.display = 'none';
     });
 
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt(); // عرض نافذة التثبيت
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        console.log('✅ المستخدم وافق على التثبيت');
-      } else {
-        console.log('❌ المستخدم رفض التثبيت');
-      }
-      deferredPrompt = null;
-      installBtn.style.display = 'none'; // إخفاء الزر بعد المحاولة
+    window.addEventListener('beforeinstallprompt', (e) => {
+      console.log('🎉 beforeinstallprompt تم إطلاقه.');
+      e.preventDefault(); // منع الظهور التلقائي للنافذة الافتراضية
+      deferredPrompt = e;
+      installBtn.style.display = 'inline-block'; // إظهار الزر لمرة واحدة
     });
 
     window.addEventListener('appinstalled', () => {
       console.log('✅ تم تثبيت التطبيق بنجاح!');
-      installBtn.style.display = 'none'; // إخفاء الزر إن تم التثبيت
+      installBtn.style.display = 'none';
     });
 
     // ----------------------
@@ -189,7 +203,6 @@
       const query = document.getElementById('searchInput').value.trim();
       const container = document.getElementById('food-list');
       container.innerHTML = '';
-
       if (!query) {
         alert("الرجاء إدخال كلمة للبحث");
         return;
@@ -202,7 +215,6 @@
         foodData[category].forEach(item => {
           const itemName = item.name || "";
           const itemPrice = parseFloat(item.price) || 0;
-
           const matchesName = itemName.includes(query);
           const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
 
@@ -384,11 +396,17 @@
       ]
     };
 
+    // تشغيل عرض قسم "الافطار" افتراضيًا عند التحميل
+    window.onload = () => {
+      renderFoodItems("الافطار");
+      console.log('🛠️ الصفحة حملت وعرضت قسم الافطار.');
+    };
+
     // دالة عرض المنتجات بناءً على التصنيف
     function renderFoodItems(category) {
       const container = document.getElementById('food-list');
       container.innerHTML = '';
-      foodData[category]?.forEach(item => {
+      (foodData[category] || []).forEach(item => {
         const card = document.createElement('div');
         card.className = 'food-card';
         card.innerHTML = `
@@ -402,20 +420,44 @@
       });
     }
 
-    // ربط أزرار التصنيفات بالدالة
-    document.querySelectorAll('.category').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.category').forEach(btn => btn.classList.remove('selected'));
-        button.classList.add('selected');
-        const categoryText = button.innerText.trim().split('\n')[1];
-        renderFoodItems(categoryText);
-      });
-    });
+    // دالة البحث
+    function search() {
+      const query = document.getElementById('searchInput').value.trim();
+      const container = document.getElementById('food-list');
+      container.innerHTML = '';
+      if (!query) {
+        alert("الرجاء إدخال كلمة للبحث");
+        return;
+      }
 
-    // عرض قسم "الافطار" افتراضيًا عند التحميل
-    window.onload = () => {
-      renderFoodItems("الافطار");
-    };
+      let resultsFound = false;
+      const maxPrice = !isNaN(query) ? parseFloat(query) : null;
+      for (const category in foodData) {
+        foodData[category].forEach(item => {
+          const itemName = item.name || "";
+          const itemPrice = parseFloat(item.price) || 0;
+          const matchesName = itemName.includes(query);
+          const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
+          if (matchesName || matchesPrice) {
+            resultsFound = true;
+            const card = document.createElement('div');
+            card.className = 'food-card';
+            card.innerHTML = `
+              ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
+              <div class="food-info">
+                <h4>${item.price} <span>${item.name}</span></h4>
+                ${item.description ? `<p>${item.description}</p>` : ""}
+              </div>
+            `;
+            container.appendChild(card);
+          }
+        });
+      }
+
+      if (!resultsFound) {
+        container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
+      }
+    }
   </script>
 </body>
 </html>
