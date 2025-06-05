@@ -22,50 +22,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="photos/logo.png">
-
-  <style>
-    /* --- تنسيقات زر التثبيت --- */
-    #installBtn {
-      background: #551665;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      display: none; /* مخفي افتراضيًا */
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 10000;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    #installBtn:hover {
-      background: #3f104c;
-    }
-
-    /* تمييز الزر المختار */
-    .category.selected {
-      background: #344ec0;
-      color: white;
-    }
-
-    /* ملاحظة تثبيت خاصة بـ iOS (ستظهر فقط على Safari في iOS) */
-    #iosInstallHint {
-      display: none;
-      position: fixed;
-      bottom: 80px;
-      right: 20px;
-      z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 12px 16px;
-      border-radius: 10px;
-      color: white;
-      font-size: 14px;
-    }
-
-    /* (باقي تنسيقات الصفحة كما كانت لديك) */
-  </style>
 </head>
 
 <body>
@@ -80,7 +36,7 @@
   <!-- بداية محتوى الصفحة -->
   <div class="page-frame">
     <!-- الشريط العلوي -->
-    <div class="header" style="position: relative; height: 250px;">
+    <div class="header">
       <img src="photos/logo.png" alt="Logo" class="logo-img">
       <div class="logo-text">
         مطعم وكافيه "ورد" يقدم تجربة طعام صحية وشهية بمكونات طبيعية طازجة.
@@ -97,7 +53,7 @@
       <button onclick="search()">🔍</button>
     </div>
 
-    <!-- القائمة الأفقية -->
+    <!-- القائمة الأفقية للتصنيفات -->
     <div class="category-scroll">
       <div class="categories">
         <button class="category selected">🥗<br>الافطار</button>
@@ -121,16 +77,12 @@
     <nav class="bottom-nav">
       <a href="fedback.html" aria-label="صفحة الفيدباك">
         <button type="button">
-          <div class="location">
-            <img src="photos/qusition.png" alt="feedback" class="location-img" width="20" height="20">
-          </div>
+          <img src="photos/qusition.png" alt="feedback" class="location-img">
         </button>
       </a>
       <a href="map.html" aria-label="صفحة الموقع">
         <button type="button">
-          <div class="location">
-            <img src="photos/location.png" alt="location" class="location-img" width="20" height="20">
-          </div>
+          <img src="photos/location.png" alt="location" class="location-img">
         </button>
       </a>
     </nav>
@@ -171,7 +123,6 @@
     let deferredPrompt = null;
     const installBtn = document.getElementById('installBtn');
 
-    // أضف مستمع الحدث قبل أي محاولة للنقر على الزر
     installBtn.addEventListener('click', async () => {
       console.log('👉 تم الضغط على زر التثبيت.');
       if (!deferredPrompt) {
@@ -179,8 +130,6 @@
         alert('التثبيت غير متوفر حالياً. جرّب لاحقاً من متصفح يدعم PWA.');
         return;
       }
-
-      // افتح نافذة التثبيت الرسمية
       deferredPrompt.prompt();
       console.log('📤 تم استدعاء deferredPrompt.prompt().');
 
@@ -191,10 +140,10 @@
     });
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      console.log('🎉 beforeinstallprompt تم إطلاقه.');
-      e.preventDefault(); // منع الظهور التلقائي للنافذة الافتراضية
+      console.log('🎉 قبل تثبيت PWA (beforeinstallprompt) تم إطلاقه.');
+      e.preventDefault();
       deferredPrompt = e;
-      installBtn.style.display = 'inline-block'; // إظهار الزر لمرة واحدة
+      installBtn.style.display = 'inline-block';
     });
 
     window.addEventListener('appinstalled', () => {
@@ -207,25 +156,25 @@
     // ----------------------
     const foodData = {
       "الافطار": [
-        { name: "فطور مصري 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/1_breakfast.jpg" },
-        { name: "طبق كربوز", price: "5000", image: "photos/breakfast/2_breakfast.jpg" },
-        { name: "اضافه خبز", price: "500", image: "photos/breakfast/3_breakfast.jpeg" },
-        { name: "فاصوليا مع المقبلات", price: "1500", image: "photos/breakfast/4_breakfast.jpg" },
-        { name: "طبق بهجه", price: "5000", image: "photos/breakfast/5_breakfast.jpg" },
-        { name: "فرنش توست مع عصير فراوله", price: "1500", image: "photos/breakfast/6_breakfast.jpeg" },
-        { name: "فرنش توست مع شاي", price: "1000", image: "photos/breakfast/7_breakfast.jpeg" },
-        { name: "فطور تركي 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/8_breakfast.jpg" },
-        { name: "فطرو شامي 4 اشخاص - الطلب بالحجز", price: "7000", image: "photos/breakfast/9_breakfast.jpg" },
-        { name: "بان كيك مع عصير فراوله", price: "1500", image: "photos/breakfast/11_breakfast.jpeg" },
-        { name: "بان كيك مع شاي", price: "1000", image: "photos/breakfast/10_breakfast.jpeg" },
-        { name: "بيض مع المقبلات", price: "1500", image: "photos/breakfast/12_breakfast.jpg" },
         { name: "خبز طاوه مع المقبلات و شاي", price: "1500", image: "photos/breakfast/13_breakfast.jpeg" },
         { name: "خبز طاوه مع المقبلات و شاي حليب", price: "1800", image: "photos/breakfast/14_breakfast.jpg" },
+        { name: "بيض مع المقبلات", price: "1500", image: "photos/breakfast/12_breakfast.jpg" },
+        { name: "فطور مصري 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/1_breakfast.jpg" },
+        { name: "فاصوليا مع المقبلات", price: "1500", image: "photos/breakfast/4_breakfast.jpg" },
         { name: "مطيط", price: "1200", image: "photos/breakfast/15_breakfast.jpeg" },
+        { name: "فرنش توست مع شاي", price: "1000", image: "photos/breakfast/7_breakfast.jpeg" },
+        { name: "فرنش توست مع عصير فراوله", price: "1500", image: "photos/breakfast/6_breakfast.jpeg" },
+        { name: "بان كيك مع شاي", price: "1000", image: "photos/breakfast/10_breakfast.jpeg" },
+        { name: "بان كيك مع عصير فراوله", price: "1500", image: "photos/breakfast/11_breakfast.jpeg" },
         { name: "باخمري", price: "600", image: "photos/breakfast/16_1breakfast.jpg" },
+        { name: "مناقيش بالجبنه", price: "1200", image: "photos/breakfast/17.jpg" },
+        { name: "مناقيش بالزعتر", price: "1000", image: "photos/breakfast/18.jpg" },
+        { name: "طبق كربوز", price: "5000", image: "photos/breakfast/2_breakfast.jpg" },
+        { name: "طبق بهجه", price: "5000", image: "photos/breakfast/5_breakfast.jpg" },
+        { name: "فطرو شامي 4 اشخاص - الطلب بالحجز", price: "7000", image: "photos/breakfast/9_breakfast.jpg" },
+        { name: "فطور تركي 4 اشخاص-الطلب بالحجز", price: "7000", image: "photos/breakfast/8_breakfast.jpg" },
         { name: "فطور 8 اشخاص-الطلب بالحجز", price: "15000", image: "photos/breakfast/16_breakfast.jpg" },
-        { name: "مناقيش بالجبنه", price: "1000", image: "photos/breakfast/17.jpg" },
-        { name: "مناقيش بالزعتر", price: "1200", image: "photos/breakfast/18.jpg" }
+        { name: "اضافه خبز", price: "500", image: "photos/breakfast/3_breakfast.jpeg" }
       ],
 
       "الساندويتشات": [
@@ -266,14 +215,14 @@
       ],
 
       "الاطباق": [
-        { name: "دجاج تايلاندي", price: "1800", image: "photos/maindeshes/1.jpg" },
-        { name: "وجبه دجاج تايلاندي مع الكاجو", price: "3000", image: "photos/maindeshes/2.jpg" },
+        { name: "ستيكي تاي تشكن", price: "1800", image: "photos/maindeshes/1.jpg" },
+        { name: "تاي تشكن مع الكاجو", price: "3000", image: "photos/maindeshes/2.jpg" },
         { name: "تشكن ونجز بصوص البافلو", price: "2000", image: "photos/maindeshes/3.jpeg" },
         { name: "تشكن ونجز بالصوص الحار", price: "2000", image: "photos/maindeshes/4.jpg" },
         { name: "مكرونه حمراء مع الصوص", price: "1200", image: "photos/maindeshes/5.jpg" },
         { name: "مكرونه بيضاء", price: "2000", image: "photos/maindeshes/6.jpg" },
         { name: "مكرونه بصوص الجبنه", price: "1500", image: "photos/maindeshes/8.png" },
-        { name: "استربس وجبة", price: "1500", image: "photos/maindeshes/10.jpg" },
+        { name: "استربس وجبة", price: "2000", image: "photos/maindeshes/10.jpg" },
         { name: "سلة شبس", price: "1200", image: "photos/maindeshes/9.jpeg" },
         { name: "وجبه بوب كورن دجاج (حار - عادي)", price: "2000", image: "photos/maindeshes/7.jpg" },
         { name: "بوب كورن دجاج (حار - عادي)", price: "1500", image: "photos/maindeshes/9.jpg" }
@@ -363,9 +312,12 @@
     // 5. دالة البحث في قائمة الطعام
     // ----------------------
     function search() {
-      const query = document.getElementById('searchInput').value.trim();
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const currentCategoryBtn = document.querySelector('.category.selected');
+      const categoryText = currentCategoryBtn ? currentCategoryBtn.innerText.split("\n")[1].trim() : null;
       const container = document.getElementById('food-list');
       container.innerHTML = '';
+
       if (!query) {
         alert("الرجاء إدخال كلمة للبحث");
         return;
@@ -374,9 +326,10 @@
       let resultsFound = false;
       const maxPrice = !isNaN(query) ? parseFloat(query) : null;
 
-      for (const category in foodData) {
-        foodData[category].forEach(item => {
-          const itemName = item.name || "";
+      if (categoryText && foodData[categoryText]) {
+        // البحث ضمن القسم الحالي فقط
+        foodData[categoryText].forEach(item => {
+          const itemName = item.name.toLowerCase() || "";
           const itemPrice = parseFloat(item.price) || 0;
           const matchesName = itemName.includes(query);
           const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
@@ -388,8 +341,8 @@
             card.innerHTML = `
               ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
               <div class="food-info">
-                <h4>${item.price} <span>${item.name}</span></h4>
-                ${item.description ? `<p>${item.description}</p>` : ""}
+                <h4>${item.price} ريال</h4>
+                <span>${item.name}</span>
               </div>
             `;
             container.appendChild(card);
@@ -398,14 +351,13 @@
       }
 
       if (!resultsFound) {
-        container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}"</p>`;
+        container.innerHTML = `<p style="text-align:center; padding: 20px;">لا توجد نتائج تطابق "${query}" في قسم ${categoryText}.</p>`;
       }
     }
 
     // ----------------------
     // 6. دوال عرض المنتجات حسب التصنيف وتنقل الأقسام
     // ----------------------
-    // الاستماع للنقر على أزرار التصنيفات
     const categoryButtons = document.querySelectorAll(".category");
 
     categoryButtons.forEach(button => {
@@ -429,7 +381,7 @@
       container.innerHTML = "";
 
       if (!foodData[categoryName]) {
-        container.innerHTML = "<p style='text-align:center;'>لا توجد عناصر في هذا القسم.</p>";
+        container.innerHTML = "<p style='text-align:center; padding:20px;'>لا توجد عناصر في هذا القسم.</p>";
         return;
       }
 
@@ -439,8 +391,8 @@
         card.innerHTML = `
           ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
           <div class="food-info">
-            <h4>${item.price} <span>${item.name}</span></h4>
-            ${item.description ? `<p>${item.description}</p>` : ""}
+            <h4>${item.price} ريال</h4>
+            <span>${item.name}</span>
           </div>
         `;
         container.appendChild(card);
