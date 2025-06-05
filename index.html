@@ -22,38 +22,40 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="photos/logo.png">
+
+  <style>
+    /* تنسيقات زر التثبيت */
+    #installBtn {
+      background: #551665;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none; /* مخفي افتراضيًا */
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    #installBtn:hover {
+      background: #3f104c;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- صندوق طلب التثبيت (سيظهر تلقائيًا عند إمكانية التثبيت) -->
-  <div id="installPromptContainer" style="
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      z-index: 9999;
-      background-color: rgba(0, 0, 0, 0.7);
-      padding: 12px 16px;
-      border-radius: 10px;
-      color: white;
-      font-size: 14px;
-      display: none;
-    ">
-    هذا الموقع يمكن تثبيته كتطبيق على جهازك.<br>
-    <a href="#" id="installLink" style="
-        color: #FFD700;
-        text-decoration: underline;
-        cursor: pointer;
-      ">
-      اضغط هنا لتثبيت التطبيق
-    </a>
-  </div>
+  <!-- زر التثبيت اليدوي: يظهر فقط عند توفر نافذة beforeinstallprompt -->
+  <button id="installBtn">📲 تثبيت التطبيق</button>
 
   <!-- ملاحظة تثبيت خاصة بـ iOS -->
   <div id="iosInstallHint" style="
       display: none;
       position: fixed;
       bottom: 80px;
-      left: 20px;
+      right: 20px;
       z-index: 9999;
       background-color: rgba(0, 0, 0, 0.7);
       padding: 12px 16px;
@@ -142,51 +144,43 @@
     }
 
     // ----------------------
-    // 2. إعداد مربع التثبيت للمستخدم (beforeinstallprompt) مع تأخير 5 ثوانٍ
+    // 2. دعم iOS: إظهار تلميح التثبيت اليدوي
+    // ----------------------
+    const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
+    if (isIOS && !isInStandaloneMode) {
+      document.getElementById('iosInstallHint').style.display = 'block';
+    }
+
+    // ----------------------
+    // 3. التعامل مع زر التثبيت اليدوي (beforeinstallprompt)
     // ----------------------
     let deferredPrompt;
-    const installPromptContainer = document.getElementById('installPromptContainer');
-    const installLink = document.getElementById('installLink');
+    const installBtn = document.getElementById('installBtn');
 
     window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
+      e.preventDefault(); // منع ظهور النافذة التلقائي
       deferredPrompt = e;
-
-      // نظهر صندوق الطلب بعد 5 ثوانٍ فقط إذا حدث beforeinstallprompt
-      setTimeout(() => {
-        installPromptContainer.style.display = 'block';
-      }, 5000);
+      installBtn.style.display = 'inline-block'; // عرض الزر عندما يكون متاحًا
     });
 
-    installLink.addEventListener('click', async (event) => {
-      event.preventDefault();
-
-      if (!deferredPrompt) {
-        alert("لا يمكن تثبيت التطبيق الآن. حاول لاحقًا.");
-        return;
-      }
-
-      installPromptContainer.style.display = 'none';
-      deferredPrompt.prompt();
-
+    installBtn.addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      deferredPrompt.prompt(); // عرض نافذة التثبيت
       const { outcome } = await deferredPrompt.userChoice;
-      console.log(`🧾 نتيجة التثبيت: ${outcome}`);
+      if (outcome === 'accepted') {
+        console.log('✅ المستخدم وافق على التثبيت');
+      } else {
+        console.log('❌ المستخدم رفض التثبيت');
+      }
       deferredPrompt = null;
+      installBtn.style.display = 'none'; // إخفاء الزر بعد المحاولة
     });
 
     window.addEventListener('appinstalled', () => {
       console.log('✅ تم تثبيت التطبيق بنجاح!');
+      installBtn.style.display = 'none'; // إخفاء الزر إن تم التثبيت
     });
-
-    // ----------------------
-    // 3. دعم iOS: إظهار تلميح التثبيت اليدوي
-    // ----------------------
-    const isIOS = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
-    const isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-
-    if (isIOS && !isInStandaloneMode) {
-      document.getElementById('iosInstallHint').style.display = 'block';
-    }
 
     // ----------------------
     // 4. دالة البحث في قائمة الطعام
