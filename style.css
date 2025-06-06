@@ -30,7 +30,7 @@ body {
 .header {
   background: #551665;
   color: white;
-  padding: 20px; /* padding معقول بدلاً من % */
+  padding: 0px; /* padding معقول بدلاً من % */
   display: flex;
   align-items: center;
   justify-content: center;
