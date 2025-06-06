@@ -31,13 +31,10 @@ body {
   background: #551665;
   color: white;
   padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 15px;
   margin: 10px;
   position: relative;
-  height: 200px; /* ارتفاع كافٍ للهيدر */
+  height: 250px; /* زودنا الارتفاع لكي لا ينقص النص */
   overflow: hidden;
 }
 
@@ -63,14 +60,16 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  font-size: 20px;
-  line-height: 1.5;
+  font-size: 24px; /* زيدنا الخط ليكون واضح */
+  line-height: 1.6; /* مسافة جيدة بين السطور */
   direction: rtl;
   color: white;
   text-align: center;
   animation-duration: 15s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
+  max-width: 90%; /* لكي لا يخرج النص عن الحواف */
+  white-space: normal; /* يسمح للنص أن يلف على سطرين لو احتاج */
 }
 
 @keyframes show-logo {
@@ -90,6 +89,7 @@ body {
     opacity: 1;
   }
 }
+
 
 .location-img {
   height: 40px;
