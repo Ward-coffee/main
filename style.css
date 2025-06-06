@@ -189,26 +189,19 @@ body {
 .food-info h4 {
   margin: 0;
   font-size: 18px;
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
   direction: rtl;
-  flex-direction: row-reverse;
-  text-align: right;
+  flex-direction: row-reverse; /* الاسم يمين، السعر يسار */
 }
 
-.food-info h4 span {
-  display: inline-block;
-}
-
-.food-name {
-  min-width: 60%;
-  text-align: right;
-}
-
+.food-name,
 .food-price {
-  min-width: 35%;
-  text-align: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
 .food-info p {
