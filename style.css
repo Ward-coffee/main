@@ -4,7 +4,6 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   background: #fff9ec;
   color: #333;
-  direction: rtl;
 }
 
 /* الحاوية الأساسية */
@@ -15,12 +14,12 @@ body {
   border-radius: 0px;
   overflow: hidden;
   box-shadow: 0 0 10px #551665;
-  padding: 200px;
+  padding: 80%;
   position: relative;
 }
 
 .inner-border {
-  border: 60px solid #551665;
+  border: 3px solid #551665;
   border-radius: 15px;
   background: #fff;
   box-shadow: 0 0 10px #551665;
@@ -31,14 +30,14 @@ body {
 .header {
   background: #551665;
   color: white;
-  padding: 10%;
+  padding: 1%;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   margin-bottom: 10px;
   position: relative;
-  height: 120px; /* إصلاح الارتفاع */
+  height: 0px; /* لتحديد مساحة التأثير */
   overflow: hidden;
 }
 
@@ -50,38 +49,52 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  animation-duration: 25s;
+  animation-duration: 15s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
   text-align: center;
   max-width: 90%;
 }
 
+/* الشعار */
 .logo-img {
   animation-name: show-logo;
+  z-index: 2;
+  max-width: 150px;
 }
 
+/* النص */
 .logo-text {
   animation-name: show-text;
+  direction: rtl;
+  font-size: 12px;
+  line-height: 1.5;
+  padding:-20px;
+  z-index: 0;
+  color: white;
 }
-
 @keyframes show-logo {
-  0% { opacity: 1; }
-  20% { opacity: 1; }
-  21% { opacity: 0; }
-  100% { opacity: 0; }
+  0%, 40% {
+    opacity: 1;
+  }
+  45%, 100% {
+    opacity: 0;
+  }
 }
 
 @keyframes show-text {
-  0% { opacity: 0; }
-  20% { opacity: 0; }
-  21% { opacity: 1; }
-  100% { opacity: 1; }
+  0%, 40% {
+    opacity: 0;
+  }
+  45%, 100% {
+    opacity: 1;
+  }
 }
 
-/* الشعار المصغر */
+
+/* الشعار المصغر في مكان آخر إن وُجد */
 .location-img {
-  height: 40px;
+  height: 40px; /* تصحيح */
   width: auto;
 }
 
@@ -182,8 +195,10 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: row-reverse;
+  direction: rtl; /* ضروري لأن الصفحة بالعربية */
+  flex-direction: row-reverse; /* هذه السطر يضع الاسم يمين والسعر يسار */
 }
+
 
 .food-info p {
   font-size: 12px;
@@ -196,16 +211,15 @@ body {
   display: flex;
   justify-content: space-around;
   background: #551665;
-  padding: 5px;
+  padding: 0px 1px;
   border-radius: 10px;
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  bottom: -7px;
+  width: 94%;
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
 }
 
 .bottom-nav button {
@@ -213,12 +227,6 @@ body {
   border: none;
   color: white;
   font-size: 20px;
-  transition: color 0.3s ease, transform 0.3s ease;
-}
-
-.bottom-nav button:hover {
-  color: #ffd700;
-  transform: scale(1.1);
 }
 
 /* إطار الصفحة */
@@ -244,16 +252,4 @@ body {
   justify-content: center;
   gap: 15px;
   align-items: center;
-}
-
-/* استجابة للجوال */
-@media (max-width: 480px) {
-  .food-info h4 {
-    font-size: 16px;
-  }
-
-  .category {
-    font-size: 11px;
-    width: 76px;
-  }
 }
