@@ -30,21 +30,21 @@ body {
 .header {
   background: #551665;
   color: white;
-  padding: 0px; /* padding معقول بدلاً من % */
+  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  border-radius: 15px;
+  margin: 10px;
   position: relative;
-  height: 200px; /* اعطيه ارتفاع ثابت كافي لعرض اللوجو والكتابة */
+  height: 200px; /* ارتفاع كافٍ للهيدر */
   overflow: hidden;
 }
 
-
-/* أنيميشن الشعار والنص */
-.logo-img,
-.logo-text {
+.logo-img {
+  animation-name: show-logo;
+  z-index: 2;
+  max-width: 150px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -53,26 +53,25 @@ body {
   animation-duration: 15s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
-  text-align: center;
-  max-width: 90%;
-}
-
-.logo-img {
-  animation-name: show-logo;
-  z-index: 2;
-  max-width: 150px;
 }
 
 .logo-text {
   animation-name: show-text;
-  direction: rtl;
-  font-size: 16px; 
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  font-size: 20px;
   line-height: 1.5;
-  padding: 0;
-  z-index: 0;
+  direction: rtl;
   color: white;
+  text-align: center;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
 }
-
 
 @keyframes show-logo {
   0%, 40% {
