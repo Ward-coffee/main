@@ -14,7 +14,7 @@ body {
   border-radius: 0px;
   overflow: hidden;
   box-shadow: 0 0 10px #551665;
-  padding: 20px; /* تم تصحيح padding من 80% إلى 20px */
+  padding: 80%;
   position: relative;
 }
 
@@ -30,15 +30,15 @@ body {
 .header {
   background: #551665;
   color: white;
-  padding: 1%;
+  padding: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   margin-bottom: 10px;
   position: relative;
-  height: 60px;     /* تم تعديل الارتفاع ليظهر الشريط بوضوح */
-  overflow: visible; /* تم تعديل overflow */
+  height: 0px;
+  overflow: hidden;
 }
 
 /* أنيميشن الشعار والنص */
@@ -67,7 +67,7 @@ body {
   direction: rtl;
   font-size: 12px;
   line-height: 1.5;
-  margin-top: -20px; /* تم استبدال padding السالبة */
+  padding: -20px;
   z-index: 0;
   color: white;
 }
@@ -165,7 +165,6 @@ body {
   background: #344ec0;
   color: white;
   font-weight: bold;
-  box-shadow: 0 0 8px #344ec0; /* إضافة ظل لتحسين التمييز */
 }
 
 /* بطاقات الطعام */
@@ -175,12 +174,6 @@ body {
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* تأثير هوفر */
-}
-
-.food-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
 .food-card img {
@@ -200,7 +193,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  direction: rtl; 
+  direction: rtl;
   flex-direction: row-reverse; /* الاسم يمين، السعر يسار */
 }
 
@@ -225,7 +218,7 @@ body {
   padding: 0px 1px;
   border-radius: 10px;
   position: fixed;
-  bottom: 0; /* تم تعديل من -7px إلى 0 */
+  bottom: -7px;
   width: 99%;
   max-width: 500px;
   left: 50%;
@@ -256,7 +249,6 @@ body {
   height: 100%;
 }
 
-/* أيقونات التواصل */
 .social-icons {
   display: flex;
   justify-content: center;
