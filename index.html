@@ -8,24 +8,342 @@
   <!-- أيقونة الموقع -->
   <link rel="icon" href="photos/logo.png" type="image/x-icon">
 
-  <!-- ملف التصميم الخارجي -->
-  <link rel="stylesheet" href="style.css">
-
   <!-- ملف المانيفست الخاص بالتطبيق -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#551665">
 
-  <!-- دعم Android أيضًا -->
+  <!-- دعم Android -->
   <meta name="mobile-web-app-capable" content="yes">
 
   <!-- دعم التثبيت على iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
   <link rel="apple-touch-icon" href="photos/logo.png">
+
+  <!-- الأسلوب المجمّع (CSS) -->
+  <style>
+    /* إعداد عام للصفحة */
+    body {
+      margin: 0;
+      padding-bottom: 100px; /* مساحة للأزرار السفلية */
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #fff9ec;
+      color: #333;
+    }
+
+    /* الحاوية الأساسية */
+    .container {
+      max-width: 100%;
+      margin: auto;
+      background: #fff;
+      border-radius: 0px;
+      overflow: hidden;
+      box-shadow: 0 0 10px #551665;
+      padding: 12px;
+      position: relative;
+    }
+
+    .inner-border {
+      border: 3px solid #551665;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 0 10px #551665;
+      overflow: hidden;
+    }
+
+    /* الشريط العلوي */
+    .header {
+      background: #551665;
+      color: white;
+      padding: 8px 1%; /* تم تقليل الحشو لتصغير الفواصل */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      position: relative;
+      overflow: hidden;
+      min-height: 60px;
+      font-size: 12px; /* تصغير حجم النص داخل الهيدر */
+    }
+
+    /* أنيميشن الشعار والنص */
+    .logo-img,
+    .logo-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation-duration: 25s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+      text-align: center;
+      max-width: 90%;
+      pointer-events: none; /* منع التفاعل مع الأنيميشن */
+    }
+
+    .logo-img {
+      animation-name: show-logo;
+    }
+
+    .logo-text {
+      animation-name: show-text;
+    }
+
+    @keyframes show-logo {
+      0%, 20% {
+        opacity: 1;
+      }
+      21%, 100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes show-text {
+      0%, 20% {
+        opacity: 0;
+      }
+      21%, 100% {
+        opacity: 1;
+      }
+    }
+
+    /* الشعار المصغر */
+    .location-img {
+      height: 40px;
+      width: auto;
+    }
+
+    .header .location {
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .header .icons {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* شريط البحث */
+    .search-bar {
+      margin: 15px;
+      display: flex;
+      background: #e6e3da;
+      border-radius: 12px;
+      overflow: hidden;
+      align-items: center;
+      padding: 8px 12px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+    }
+
+    .search-bar button {
+      background: #344ec0;
+      border: none;
+      color: white;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* القائمة الأفقية */
+    .category-scroll {
+      overflow-x: auto;
+      white-space: nowrap;
+      margin: 10px 8px;
+      padding-left: 5px;
+      scroll-snap-type: x mandatory; /* لتثبيت عنصر عند التمرير */
+    }
+
+    .categories {
+      display: inline-flex;
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+
+    .category {
+      flex: 0 0 auto;
+      background: #e6e3da;
+      color: #333;
+      border: none;
+      padding: 10px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 12px;
+      width: 88px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      scroll-snap-align: start; /* لتثبيت العنصر في المنطقة المرئية */
+    }
+
+    .category.selected {
+      background: #344ec0;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* بطاقات الطعام */
+    .food-card {
+      margin: 15px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .food-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .food-info {
+      padding: 15px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .food-info h4 {
+      margin: 0;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      direction: rtl;
+      flex-direction: row-reverse;
+    }
+
+    .food-info span {
+      font-size: 14px;
+      font-weight: normal;
+      color: #333;
+    }
+
+    .food-info p {
+      font-size: 12px;
+      color: #777;
+      margin: 0;
+    }
+
+    /* عرض امتداد الصورة */
+    .food-info .extension {
+      font-size: 10px;
+      color: #aaa;
+      margin-top: 4px;
+      direction: ltr;
+      text-align: left;
+    }
+
+    /* أزرار أسفل الشاشة */
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #551665;
+      padding: 12px 5px;
+      border-radius: 15px 15px 0 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 500px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+      height: 60px;
+    }
+
+    .bottom-nav button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* إطار الصفحة */
+    .page-frame {
+      border: 5px solid #551665;
+      border-radius: 20px;
+      margin: 10px;
+      padding: 0;
+      box-sizing: border-box;
+      min-height: calc(100vh - 20px);
+      background: #fff;
+    }
+
+    /* أيقونات التواصل */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      align-items: center;
+    }
+
+    /* تحسينات للموبايل */
+    @media (max-width: 600px) {
+      .food-info {
+        padding: 10px 15px;
+      }
+
+      .food-info h4 {
+        font-size: 16px;
+      }
+
+      .food-info span {
+        font-size: 14px;
+      }
+
+      .category {
+        width: auto;
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .search-bar {
+        margin: 10px;
+        padding: 6px 10px;
+      }
+    }
+
+    /* إخفاء تلميح iOS حتى الحاجة */
+    #iosInstallHint {
+      display: none;
+      padding: 15px;
+      background: #fffae6;
+      border: 1px solid #ffcc00;
+      margin: 10px;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    /* زر التثبيت مبدئيًا مخفي */
+    #installBtn {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: #344ec0;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+  </style>
 </head>
 
 <body>
-  <!-- زر التثبيت اليدوي: يظهر فقط عندما يُطلق beforeinstallprompt -->
+  <!-- زر التثبيت اليدوي: يظهر فقط عندما يُطلق قبل حدث beforeinstallprompt -->
   <button id="installBtn">📲 تثبيت التطبيق</button>
 
   <!-- ملاحظة تثبيت خاصة بـ iOS -->
@@ -33,7 +351,7 @@
     لتثبيت التطبيق: اضغط على زر <b>المشاركة</b> ثم اختر <b>"إضافة إلى الشاشة الرئيسية"</b>.
   </div>
 
-  <!-- بداية محتوى الصفحة -->
+  <!-- بداية المحتوى -->
   <div class="page-frame">
     <!-- الشريط العلوي -->
     <div class="header">
@@ -50,7 +368,7 @@
     <!-- شريط البحث -->
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="بحث...">
-      <button onclick="search()">🔍</button>
+      <button onclick="search()"><span aria-hidden="true">🔍</span></button>
     </div>
 
     <!-- القائمة الأفقية للتصنيفات -->
@@ -190,7 +508,7 @@
         { name: "ساندويتش استربس دجاج بخبز التورتيلا", price: "2500", image: "photos/Sandwiches/9.jpg" },
         { name: "ساندويتش تونه بخبز البان", price: "1500", image: "" },
         { name: "ساندويتش تونه بخبز التوست", price: "1000", image: "" },
-        { name: "ساندويتش ميني برجر لحم", price: "1300", image: "photos/Sandwiches/.jpeg" }
+        { name: "ساندويتش ميني برجر لحم", price: "1300", image: "" }
       ],
 
       "البيتزا": [
@@ -240,7 +558,7 @@
         { name: "كوكيز", price: "600", image: "photos/dessert/2.jpg" },
         { name: "حلا الكريب بالشوكولاتة", price: "2000", image: "photos/dessert/4.jpg" },
         { name: "10 حبات مني بان كيك بالشوكولاتة العسل", price: "1000", image: "photos/dessert/5.jpg" },
-        { name: "5 حبات مني بان كيك بالشوكولاته والعسل", price: "500", image: "" },
+        { name: "5 حبات مني بان كيك بالشوكולاته والعسل", price: "500", image: "" },
         { name: "حلا الشعيرية", price: "500", image: "" },
         { name: "حلا الشعيرية", price: "600", image: "" },
         { name: "فشار", price: "600", image: "" },
@@ -329,20 +647,28 @@
       if (categoryText && foodData[categoryText]) {
         // البحث ضمن القسم الحالي فقط
         foodData[categoryText].forEach(item => {
-          const itemName = item.name.toLowerCase() || "";
+          const itemName = (item.name || "").toLowerCase();
           const itemPrice = parseFloat(item.price) || 0;
           const matchesName = itemName.includes(query);
-          const matchesPrice = maxPrice !== null && itemPrice <= maxPrice;
+          const matchesPrice = (maxPrice !== null && itemPrice <= maxPrice);
 
           if (matchesName || matchesPrice) {
             resultsFound = true;
             const card = document.createElement('div');
             card.className = 'food-card';
+            // استخراج امتداد الصورة إذا كان موجودًا
+            let extensionText = "";
+            if (item.image) {
+              const parts = item.image.split('.');
+              const ext = parts[parts.length - 1];
+              extensionText = ext ? `.${ext}` : "";
+            }
             card.innerHTML = `
               ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
               <div class="food-info">
-                <h4>${item.price} </h4>
+                <h4>${item.price} <span>ريال</span></h4>
                 <span>${item.name}</span>
+                <p class="extension">${extensionText}</p>
               </div>
             `;
             container.appendChild(card);
@@ -388,11 +714,21 @@
       foodData[categoryName].forEach(item => {
         const card = document.createElement("div");
         card.className = "food-card";
+
+        // استخراج امتداد الصورة إذا كان موجودًا
+        let extensionText = "";
+        if (item.image) {
+          const parts = item.image.split('.');
+          const ext = parts[parts.length - 1];
+          extensionText = ext ? `.${ext}` : "";
+        }
+
         card.innerHTML = `
           ${item.image ? `<img src="${item.image}" alt="${item.name}" onerror="this.style.display='none';">` : ""}
           <div class="food-info">
-            <h4>${item.price} </h4>
+            <h4>${item.price} <span>ريال</span></h4>
             <span>${item.name}</span>
+            <p class="extension">${extensionText}</p>
           </div>
         `;
         container.appendChild(card);
