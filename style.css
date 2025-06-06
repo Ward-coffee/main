@@ -56,14 +56,12 @@ body {
   max-width: 90%;
 }
 
-/* الشعار */
 .logo-img {
   animation-name: show-logo;
   z-index: 2;
   max-width: 150px;
 }
 
-/* النص */
 .logo-text {
   animation-name: show-text;
   direction: rtl;
@@ -92,7 +90,6 @@ body {
   }
 }
 
-/* الشعار المصغر في مكان آخر إن وُجد */
 .location-img {
   height: 40px;
   width: auto;
@@ -197,6 +194,21 @@ body {
   align-items: center;
   direction: rtl;
   flex-direction: row-reverse;
+  text-align: right;
+}
+
+.food-info h4 span {
+  display: inline-block;
+}
+
+.food-name {
+  min-width: 60%;
+  text-align: right;
+}
+
+.food-price {
+  min-width: 35%;
+  text-align: left;
 }
 
 .food-info p {
@@ -228,7 +240,6 @@ body {
   font-size: 20px;
 }
 
-/* إطار الصفحة */
 .page-frame {
   border: 5px solid #551665;
   border-radius: 20px;
@@ -245,7 +256,6 @@ body {
   height: 100%;
 }
 
-/* أيقونات التواصل */
 .social-icons {
   display: flex;
   justify-content: center;
