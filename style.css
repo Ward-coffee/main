@@ -14,7 +14,7 @@ body {
   border-radius: 0px;
   overflow: hidden;
   box-shadow: 0 0 10px #551665;
-  padding: 80%;
+  padding: 20px;
   position: relative;
 }
 
@@ -30,18 +30,20 @@ body {
 .header {
   background: #551665;
   color: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 10px;
+  padding: 1%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-bottom: 10px;
   position: relative;
-  height: 250px; /* زودنا الارتفاع لكي لا ينقص النص */
+  height: 0px; /* لتحديد مساحة التأثير */
   overflow: hidden;
 }
 
-.logo-img {
-  animation-name: show-logo;
-  z-index: 2;
-  max-width: 150px;
+/* أنيميشن الشعار والنص */
+.logo-img,
+.logo-text {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -50,49 +52,67 @@ body {
   animation-duration: 15s;
   animation-iteration-count: infinite;
   animation-timing-function: ease-in-out;
+  text-align: center;
+  max-width: 90%;
+}
+
+/* أنيميشن الشعار والنص */
+.logo-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation: show-logo 25s ease-in-out infinite;
+  text-align: center;
+  max-width: 90%;
 }
 
 .logo-text {
-  animation-name: show-text;
-  z-index: 1;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   opacity: 0;
-  font-size: 24px; /* زيدنا الخط ليكون واضح */
-  line-height: 1.6; /* مسافة جيدة بين السطور */
-  direction: rtl;
-  color: white;
+  animation: show-text 25s ease-in-out infinite;
   text-align: center;
-  animation-duration: 15s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
-  max-width: 90%; /* لكي لا يخرج النص عن الحواف */
-  white-space: normal; /* يسمح للنص أن يلف على سطرين لو احتاج */
+  max-width: 90%;
 }
 
 @keyframes show-logo {
-  0%, 40% {
+  0% {
     opacity: 1;
   }
-  45%, 100% {
+  20% {
+    opacity: 1;
+  }
+  21% {
+    opacity: 0;
+  }
+  100% {
     opacity: 0;
   }
 }
 
 @keyframes show-text {
-  0%, 40% {
+  0% {
     opacity: 0;
   }
-  45%, 100% {
+  20% {
+    opacity: 0;
+  }
+  21% {
+    opacity: 1;
+  }
+  100% {
     opacity: 1;
   }
 }
 
 
+/* الشعار المصغر في مكان آخر إن وُجد */
 .location-img {
-  height: 40px;
+  height: 40px; /* تصحيح */
   width: auto;
 }
 
@@ -190,20 +210,13 @@ body {
 .food-info h4 {
   margin: 0;
   font-size: 18px;
-  font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  direction: rtl;
-  flex-direction: row-reverse; /* الاسم يمين، السعر يسار */
+  direction: rtl; /* ضروري لأن الصفحة بالعربية */
+  flex-direction: row-reverse; /* هذه السطر يضع الاسم يمين والسعر يسار */
 }
 
-.food-name,
-.food-price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
 
 .food-info p {
   font-size: 12px;
@@ -216,19 +229,16 @@ body {
   display: flex;
   justify-content: space-around;
   background: #551665;
-  padding: 10px 5px;
-  border-radius: 15px 15px 0 0;
+  padding: 0px 1px;
+  border-radius: 10px;
   position: fixed;
-  bottom: 0;
-  width: 100%;
+  bottom: -7px;
+  width: 107%;
   max-width: 500px;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-  pointer-events: auto;
 }
-
 
 .bottom-nav button {
   background: none;
@@ -237,6 +247,7 @@ body {
   font-size: 20px;
 }
 
+/* إطار الصفحة */
 .page-frame {
   border: 5px solid #551665;
   border-radius: 20px;
@@ -253,6 +264,7 @@ body {
   height: 100%;
 }
 
+/* أيقونات التواصل */
 .social-icons {
   display: flex;
   justify-content: center;
